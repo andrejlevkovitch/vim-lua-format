@@ -15,6 +15,8 @@ You have to add next lines in your `.vimrc` file:
   autocmd BufWrite *.lua call LuaFormat()
 ```
 
+After this when you press `<C-K>` or just save `*.lua` file, it will be automaticly formatted.
+
 ## Features
 
 Reformats your Lua source code.
