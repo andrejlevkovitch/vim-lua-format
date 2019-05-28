@@ -6,17 +6,14 @@ Support for vim for [LuaFormatter](https://github.com/Koihik/LuaFormatter).
 
 You have to add next lines in your `.vimrc` file:
 
-  `function! LuaFormat()`
-  
-  `" here you have to set path to lua-format.py file from the repo. In this case it was be copy to /usr/local/bin directory`
-  
-  `  pyf /usr/local/bin/lua-format.py`
-  
-  `endfunction`
-  
-  `autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>`
-  
-  `autocmd BufWrite *.lua call LuaFormat()`
+```
+  function! LuaFormat() 
+  " here you have to set path to lua-format.py file from the repo. In this case it was be copy to /usr/local/bin directory
+    pyf /usr/local/bin/lua-format.py
+  endfunction
+  autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
+  autocmd BufWrite *.lua call LuaFormat()
+```
 
 ## Features
 
