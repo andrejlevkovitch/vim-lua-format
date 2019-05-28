@@ -57,7 +57,6 @@ def main():
     print('Couldn\'t determine cursor position. Is your file empty?')
     return
 
-  # Avoid flashing an ugly, ugly cmd prompt on Windows when invoking clang-format.
   startupinfo = None
   if sys.platform.startswith('win32'):
     startupinfo = subprocess.STARTUPINFO()
@@ -79,7 +78,7 @@ def main():
 
   if not stdout:
     print(
-        'No output from clang-format (crashed?).\n'
+        'No output from lua-format (crashed?).\n'
         'Please report to bugs.llvm.org.'
     )
   else:
