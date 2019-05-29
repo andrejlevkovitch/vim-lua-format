@@ -17,8 +17,10 @@ def findConfigFile(name, path):
             break
     if retval:
         return os.path.abspath(retval)
-    elif os.path.realpath(os.path.join(path, os.pardir)) != '/':
-        return findConfigFile(name, os.path.join(path, os.pardir))
+    else:
+        parrentPath = os.path.realpath(os.path.join(path, os.pardir))
+        if os.path.split(parrentPath)[1]:
+            return findConfigFile(name, parrentPath)
 
 binary = 'lua-format'
 configFile = findConfigFile(".lua-format", os.path.curdir)
