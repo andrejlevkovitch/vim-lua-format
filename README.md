@@ -18,7 +18,7 @@ You have to add next lines in your `.vimrc` file:
 After this when you press `<C-K>` or just save `*.lua` file, it will be automaticly formatted.
 
 
-Also you can add to your `.vimrc` next lines:
+Other way you can add to your `.vimrc` next lines:
 ```
 function! LuaFormat()
   let sourcefile=expand("%")
@@ -68,7 +68,7 @@ autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
 autocmd BufWrite *.lua call LuaFormat()
 ```
 
-This way works as previous, but it not required python support by vim. The second variant preferable.
+This way works as previous, but it not required python support by vim. The second variant is preferable.
 
 ## Features
 
