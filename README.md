@@ -6,7 +6,7 @@ Support for vim for [LuaFormatter](https://github.com/Koihik/LuaFormatter).
 
 You have to add next lines in your `.vimrc` file:
 
-```
+```vim
   function! LuaFormat() 
   " here you have to set path to lua-format.py file from the repo. In this case it was be copy to /usr/local/bin directory
     pyf /usr/local/bin/lua-format.py
@@ -19,7 +19,7 @@ After this when you press `<C-K>` or just save `*.lua` file, it will be automati
 
 
 Other way you can add to your `.vimrc` next lines:
-```
+```vim
 function! LuaFormat()
   let sourcefile=expand("%")
   let text=getline(1, "$")
