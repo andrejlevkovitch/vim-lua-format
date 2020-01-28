@@ -17,6 +17,59 @@ You have to add next lines in your `.vimrc` file:
 
 After this when you press `<C-K>` or just save `*.lua` file, it will be automaticly formatted.
 
+
+Also you can add to your `.vimrc` next lines:
+```
+function! LuaFormat()
+  let sourcefile=expand("%")
+  let text=getline(1, "$")
+
+  " in case of some error formatter print to stderr error message and exit
+  " with 0 code, so we need redirect stderr to file, for read message in case
+  " of some error. So let create a temporary file
+  let errorfile=tempname()
+
+  let flags=" -si "
+
+  " we can use config file for formatting which we have to set manually
+  let config=findfile(".lua-format", ".;")
+  if len(config) " append config file to flags
+    let flags=flags . " -c " . config
+  end
+
+  let result=system("lua-format " . flags . " 2>" . errorfile, text)
+
+  if len(result) " all right
+    " save cursor position
+    let sourcepos=line(".")
+
+    " change content
+    call deletebufline(bufname("%"), 1, "$")
+    call setline(1, split(result, "\n"))
+
+    " and restore cursor position
+    call cursor(sourcepos, 0)
+
+    " also clear cbuffer
+    cexpr ""
+    cwindow
+  else
+    let errors=readfile(errorfile)
+    call insert(errors, sourcefile)
+
+    set efm=%+P%f,line\ %l:%c\ %m,%-Q
+    cexpr errors
+    cwindow 5
+  end
+
+  call delete(errorfile)
+endfunction
+autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
+autocmd BufWrite *.lua call LuaFormat()
+```
+
+This way works as previous, but it not required python support by vim. The second variant preferable.
+
 ## Features
 
 Reformats your Lua source code.
