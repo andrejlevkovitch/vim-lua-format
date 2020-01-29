@@ -20,9 +20,32 @@ After this when you press `<C-K>` or just save `*.lua` file, it will be automati
 
 Other way you can add to your `.vimrc` next lines:
 ```vim
+" help function for formatters
+function! CopyDiffToBuffer(input, output, bufname)
+  " prevent out of range in cickle
+  let min_len=min([len(a:input), len(a:output)])
+
+  " copy all lines, that was changed
+  for i in range(0, min_len - 1)
+    let output_line=a:output[i]
+    let input_line=a:input[i]
+    if input_line != output_line
+      call setline(i + 1, output_line) " lines calculate from 1, items - from 0
+    end
+  endfor
+
+  " in this case we have to handle all lines, that was in range
+  if len(a:input) != len(a:output)
+    if min_len == len(a:output) " remove all extra lines from input
+      call deletebufline(a:bufname, min_len + 1, "$")
+    else " append all extra lines from output
+      call append("$", a:output[min_len:])
+    end
+  end
+endfunction
+
 function! LuaFormat()
-  let sourcefile=expand("%")
-  let text=getline(1, "$")
+  let input=getline(1, "$")
 
   " in case of some error formatter print to stderr error message and exit
   " with 0 code, so we need redirect stderr to file, for read message in case
@@ -37,29 +60,25 @@ function! LuaFormat()
     let flags=flags . " -c " . config
   end
 
-  let result=system("lua-format " . flags . " 2>" . errorfile, text)
+  let output_str=system("lua-format " . flags . " 2>" . errorfile, input)
 
-  if len(result) " all right
-    " save cursor position
-    let sourcepos=line(".")
+  if len(output_str) " all right
+    let output=split(output_str, "\n")
+    call CopyDiffToBuffer(input, output, bufname("%"))
 
-    " change content
-    call deletebufline(bufname("%"), 1, "$")
-    call setline(1, split(result, "\n"))
-
-    " and restore cursor position
-    call cursor(sourcepos, 0)
-
-    " also clear cbuffer
-    cexpr ""
-    cwindow
-  else
+    " also clear lbuffer
+    lexpr ""
+    lwindow
+  else " we got error
     let errors=readfile(errorfile)
+
+    " insert filename of current buffer in front of list. Need for errorformat
+    let sourcefile=expand("%")
     call insert(errors, sourcefile)
 
     set efm=%+P%f,line\ %l:%c\ %m,%-Q
-    cexpr errors
-    cwindow 5
+    lexpr errors
+    lwindow 5
   end
 
   call delete(errorfile)
