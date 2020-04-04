@@ -73,7 +73,7 @@ def main():
     startupinfo.wShowWindow = subprocess.SW_HIDE
 
   # Call formatter.
-  command = [binary, '-si']
+  command = [binary, '-i']
   if configFile:
     command.extend(['-c', configFile])
   p = subprocess.Popen(
@@ -99,4 +99,3 @@ def main():
 
 
 main()
-

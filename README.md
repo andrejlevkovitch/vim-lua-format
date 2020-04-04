@@ -52,7 +52,7 @@ function! LuaFormat()
   " of some error. So let create a temporary file
   let errorfile=tempname()
 
-  let flags=" -si "
+  let flags=" -i "
 
   " we can use config file for formatting which we have to set manually
   let config=findfile(".lua-format", ".;")
@@ -98,3 +98,9 @@ Reformats your Lua source code.
 * `.lua-format`: Specifies the style config file. [Style Options](https://github.com/Koihik/LuaFormatter/wiki/Style-Config)
 
 `.lua-format` file have to be in one of parrent directories or in source dir. If no one file - use default settings
+
+## Known Issues
+
+You can has error about unknow option `-i` or `-si`. This happens becuase some
+versions of `lua-formatter` uses different flags. So if you has error about
+uncorrect flag - change it to other
