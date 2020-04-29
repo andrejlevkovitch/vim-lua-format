@@ -44,7 +44,7 @@ function lua_format#format()
 
   if empty(output_str) == 0 " all right
     let output = split(output_str, "\n")
-    call CopyDiffToBuffer(input, output, bufname("%"))
+    call lua_format#CopyDiffToBuffer(input, output, bufname("%"))
 
     " also clear lbuffer
     lexpr ""
