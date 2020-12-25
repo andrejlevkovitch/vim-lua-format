@@ -42,10 +42,10 @@ function lua_format#format()
   " we can use config file for formatting which we have to set manually
   let config_file = findfile(".lua-format", ".;")
   if empty(config_file) == 0 " append config_file to flags
-    let flags = flags .. " -c " .. config_file
+    let flags = flags . " -c " . config_file
   end
 
-  let output_str=system("lua-format " .. flags .. " 2> " .. error_file, input)
+  let output_str=system("lua-format " . flags . " 2> " . error_file, input)
 
   if empty(output_str) == 0 " all right
     let output = split(output_str, "\n")
