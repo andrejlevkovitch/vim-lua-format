@@ -15,6 +15,8 @@ lines in your `.vimrc` file:
 After this when you press `<C-K>` or just save `*.lua` file, it will be
 automaticly formatted.
 
+__NOTE__ if you need use function `LuaFormat()` directly from command mode you should call it explicitly as `:call LuaFormat()`
+
 
 ## Features
 
