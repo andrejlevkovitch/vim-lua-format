@@ -7,7 +7,7 @@ function lua_format#CopyDiffToBuffer(input, output, bufname)
   for i in range(0, min_len - 1)
     let output_line = a:output[i]
     let input_line  = a:input[i]
-    if input_line != output_line
+    if input_line !=# output_line
       call setline(i + 1, output_line) " lines calculate from 1, items - from 0
     end
   endfor
